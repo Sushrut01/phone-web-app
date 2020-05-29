@@ -113,4 +113,18 @@ router.get('/delete/:id', (req, res) => {
     });
 });
 
+router.get('/search',function(req,res,next){
+  var q = req.query.q;
+  PhoneBook.find({
+    phoneBook: {
+      $regex : new RegExp(q)
+    }
+  },{
+    _id : 0,
+    __v : 0
+  },function(err,data){
+    res.join(data);
+  }).limit(5);
+});
+
 module.exports = router;
